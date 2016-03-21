@@ -3,8 +3,23 @@ def get_file
 end
 
 def get_item
-  puts "What did you buy?"
-  item = gets.chomp.capitalize
+  item = ' '
+  while (item =~ /\s+/ or item.empty?) do
+    puts "What did you buy?"
+    item = gets.chomp.capitalize
+  end
+  if item.length >= 16
+    number_of_lines = item.length / 14
+    line_place = 1
+    number_of_lines.times do
+      item.insert( line_place * 14, "-\n")
+      line_place += 1
+    end
+    item = item.split("\n")
+    item[-1] = item[-1] + space(item.last)
+    return item.join("\n")
+  end
+  item + space(item)
 end
 
 def get_price
@@ -17,7 +32,7 @@ def get_price
 end
 
 def write_to_file (file, item, price)
- file << item + space(item)
+ file << "#{item}"
  file << "$#{price}"
  file << "\n"
 end
